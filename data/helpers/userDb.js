@@ -27,11 +27,13 @@ function getUserPosts(userId) {
 }
 
 function insert(user) {
+  console.log(user)
   return db('users')
     .insert(user)
     .then(ids => {
+      console.log(ids)
       return getById(ids[0]);
-    });
+    }).catch(e => console.log(e))
 }
 
 function update(id, changes) {
