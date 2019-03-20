@@ -8,7 +8,7 @@ routes.get('/api/users', async (req, res, next) => {
         const users = await db.get();
         res.status(200).json(users);
     } catch (e) {
-        next();
+        next({ status: 500, message: 'Users could not be found' });
     }
 });
 
@@ -17,26 +17,26 @@ routes.get('/api/users/:id', async (req, res, next) => {
         const user = await db.getById(req.params.id);
         res.status(200).json(user);
     } catch (e) {
-        next();
+        next({ status: 500, message: `User ${req.params.id}could not be found` });
     }
 });
 
 routes.post('/api/users', async (req, res, next) => {
     if (!req.body.name) {
-        next();
+        next({ status: 400, message: 'User must have a name' });
     }
 
     try {
         const user = await db.insert(req.body);
         res.status(201).json(user);
     } catch (e) {
-        next();
+        next({ status: 500, message: 'Users could not be created' });
     }
 });
 
 routes.put('/api/users/:id', async (req, res, next) => {
     if (!req.body.name) {
-        next();
+        next({ status: 500, message: 'Users must have a name' });
     }
 
     try {
@@ -44,7 +44,7 @@ routes.put('/api/users/:id', async (req, res, next) => {
         const user = await db.getById(req.params.id);
         res.status(201).json(user);
     } catch (e) {
-        next();
+        next({ status: 500, message: 'Users could not be updated' });
     }
 });
 
@@ -54,7 +54,7 @@ routes.delete('/api/users/:id', async (req, res, next) => {
         await db.remove(user.id);
         res.status(201).json(user);
     } catch (e) {
-        next();
+        next({ status: 500, message: 'Users could not be deleted' });
     }
 });
 
@@ -63,7 +63,7 @@ routes.get('/api/user-posts/:id', async (req, res, next) => {
         const posts = await db.getUserPosts(req.params.id);
         res.status(200).json(posts);
     } catch (e) {
-        next();
+        next({ status: 500, message: 'Posts could not be found for this user' });
     }
 });
 
