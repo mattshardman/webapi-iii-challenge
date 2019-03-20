@@ -31,21 +31,17 @@ function insert(user) {
     .insert(user)
     .then(ids => {
       return getById(ids[0]);
-    }).catch(e => console.log(e))
+    });
 }
 
 function update(id, changes) {
   return db('users')
     .where({ id })
-    .update(changes)
-    .then(r => console.log(r))
-    .catch(e => console.log(e))
+    .update(changes);
 }
 
 function remove(id) {
   return db('users')
     .where('id', id)
-    .del()
-    .then(r => console.log(r))
-    .catch(e => console.log(e));
+    .del();
 }
