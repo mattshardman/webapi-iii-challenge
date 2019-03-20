@@ -23,15 +23,13 @@ function getUserPosts(userId) {
   return db('posts as p')
     .join('users as u', 'u.id', 'p.user_id')
     .select('p.id', 'p.text', 'u.name as postedBy')
-    .where('p.user_id', userId);
+    .where('p.user_id', userId)
 }
 
 function insert(user) {
-  console.log(user)
   return db('users')
     .insert(user)
     .then(ids => {
-      console.log(ids)
       return getById(ids[0]);
     }).catch(e => console.log(e))
 }
@@ -39,11 +37,15 @@ function insert(user) {
 function update(id, changes) {
   return db('users')
     .where({ id })
-    .update(changes);
+    .update(changes)
+    .then(r => console.log(r))
+    .catch(e => console.log(e))
 }
 
 function remove(id) {
   return db('users')
     .where('id', id)
-    .del();
+    .del()
+    .then(r => console.log(r))
+    .catch(e => console.log(e));
 }
